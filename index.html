@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaTrader 5: Plattform-Guide 2026 – Funktionen, Broker &amp; Kosten</title>
+  <meta name="description" content="MT5 Handelsplattform im Überblick: Funktionen, Unterschiede zu MT4, Systemanforderungen und Kosten – verständlich erklärt inkl. Risikohinweise.">
+  <link rel="canonical" href="https://[DOMAIN]/mt5-handelsplattform">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Schema.org: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MT5 Handelsplattform Guide",
+    "url": "https://[DOMAIN]",
+    "description": "Unabhängiger Ratgeber zur MetaTrader 5 Handelsplattform – Funktionen, Einrichtung, Broker-Auswahl und Kosten.",
+    "foundingDate": "2026"
+  }
+  </script>
+
+  <!-- Schema.org: WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "MT5 Handelsplattform: Funktionen, Einrichtung und Kosten im Überblick",
+    "description": "MT5 Handelsplattform im Überblick: Funktionen, Unterschiede zu MT4, Systemanforderungen und Kosten.",
+    "url": "https://[DOMAIN]/mt5-handelsplattform",
+    "dateModified": "2026-08-12",
+    "inLanguage": "de",
+    "publisher": {
+      "@type": "Organization",
+      "name": "MT5 Handelsplattform Guide"
+    }
+  }
+  </script>
+
+  <!-- Schema.org: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Ist die Nutzung von MT5 kostenlos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Der Download und die Nutzung der MetaTrader 5 Handelsplattform selbst sind kostenlos. Handelskosten wie Spreads oder Kommissionen entstehen erst über das Handelskonto beim jeweiligen MT5 Broker und sind brokerabhängig."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kann ich MT5 ohne echtes Geld testen?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, ein Demokonto ermöglicht das Testen der MetaTrader 5 Handelsplattform ohne Einsatz von echtem Kapital. Es bildet reale Marktbedingungen nach, garantiert aber keine identischen Ergebnisse auf einem Live-Konto."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Was ist die Markttiefe (DOM) in MT5?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Die Markttiefe (Depth of Market) zeigt Kauf- und Verkaufsorders eines Instruments auf verschiedenen Preisniveaus an. Sie liefert zusätzliche Daten zur Orderbuch-Liquidität für die technische Analyse."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Benötige ich Programmierkenntnisse für Expert Advisors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Für die Entwicklung eigener Expert Advisors in MQL5 sind Programmierkenntnisse hilfreich. Viele MT5 Broker und Drittanbieter stellen jedoch auch fertige Expert Advisors zur Verfügung, deren Backtests keine Garantie für künftige Ergebnisse darstellen."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-card: #141414;
+      --bg-card-hover: #1a1a1a;
+      --accent: #c9f135;
+      --accent-dark: #a8cc20;
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: #222222;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-dark); }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-primary);
+    }
+    .logo i { color: var(--accent); width: 20px; height: 20px; }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      color: var(--text-secondary);
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav a:hover { color: var(--text-primary); background: var(--bg-card); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; }
+    .btn-primary { background: var(--accent); color: #0a0a0a; }
+    .btn-primary:hover { background: var(--accent-dark); color: #0a0a0a; }
+    .btn-outlined { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+    .btn-outlined:hover { background: var(--accent); color: #0a0a0a; }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+
+    /* hamburger */
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); margin: 5px 0; border-radius: 2px; transition: 0.3s; }
+    .mobile-nav { display: none; flex-direction: column; padding: 12px 24px 16px; gap: 4px; border-top: 1px solid var(--border); }
+    .mobile-nav a { color: var(--text-secondary); font-size: 15px; padding: 8px 0; }
+    .mobile-nav.open { display: flex; }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 13px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1.15; letter-spacing: -1px; }
+    h2 { font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; margin-bottom: 24px; }
+    h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    p { color: var(--text-secondary); margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    .accent { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero { padding-top: 100px; padding-bottom: 80px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-btns { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .hero-disclaimer { margin-top: 24px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .hero-badges { display: flex; align-items: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+    .hero-badge { font-size: 12px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; }
+
+    /* rate widget */
+    .rate-widget { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .rate-widget-header { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+    .rate-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .rate-card { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .rate-pair { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+    .rate-value { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .rate-change { font-size: 13px; font-weight: 600; }
+    .rate-change.positive { color: #22c55e; }
+    .rate-change.negative { color: #ef4444; }
+    .rate-updated { font-size: 12px; color: var(--text-muted); text-align: right; }
+
+    /* ── METRIC CARDS ── */
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 32px 0; }
+    .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; text-align: center; transition: background 0.2s; }
+    .metric-card:hover { background: var(--bg-card-hover); }
+    .metric-card i { color: var(--accent); width: 28px; height: 28px; margin-bottom: 12px; }
+    .metric-value { font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .metric-label { font-size: 13px; color: var(--text-secondary); }
+
+    /* ── STEPS ── */
+    .steps { display: flex; align-items: flex-start; gap: 0; margin: 32px 0; }
+    .step { flex: 1; position: relative; }
+    .step-arrow { display: flex; align-items: center; padding-top: 28px; }
+    .step-arrow i { color: var(--text-muted); width: 20px; height: 20px; }
+    .step-inner { padding: 0 16px; }
+    .step-num { width: 40px; height: 40px; background: var(--accent); color: #0a0a0a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; margin-bottom: 12px; }
+    .step h3 { font-size: 15px; color: var(--text-primary); margin-bottom: 6px; }
+    .step p { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+    /* ── TABLES ── */
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); margin: 24px 0; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { background: var(--bg-card); color: var(--text-primary); font-weight: 600; font-size: 14px; padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+    thead th.highlight { color: var(--accent); }
+    tbody td { padding: 14px 20px; font-size: 14px; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: var(--bg-card-hover); }
+
+    /* ── ICON CARDS ── */
+    .icon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+    .icon-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; transition: background 0.2s; }
+    .icon-card:hover { background: var(--bg-card-hover); }
+    .icon-card i { color: var(--accent); width: 24px; height: 24px; margin-bottom: 12px; }
+    .icon-card h3 { font-size: 15px; margin-bottom: 6px; }
+    .icon-card p { font-size: 13px; margin: 0; }
+
+    /* ── ADVANTAGE STRIP ── */
+    .adv-strip { display: flex; gap: 16px; margin: 24px 0; }
+    .adv-item { flex: 1; display: flex; align-items: flex-start; gap: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .adv-item i { color: var(--accent); width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+    .adv-item p { font-size: 14px; margin: 0; }
+
+    /* ── RISK CARD ── */
+    .risk-card { background: var(--bg-card); border: 1px solid rgba(201,241,53,0.25); border-radius: 12px; padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start; margin: 24px 0; }
+    .risk-card i { color: var(--accent); width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
+    .risk-card p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+    .risk-card-orange { border-color: rgba(251,146,60,0.35); }
+    .risk-card-orange i { color: #fb923c; }
+
+    /* ── EA FLOW ── */
+    .ea-flow { display: flex; align-items: center; gap: 0; margin: 32px 0; flex-wrap: wrap; }
+    .ea-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; text-align: center; flex: 1; min-width: 120px; }
+    .ea-step i { color: var(--accent); width: 22px; height: 22px; margin-bottom: 8px; }
+    .ea-step p { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 0; }
+    .ea-arrow { padding: 0 8px; color: var(--text-muted); flex-shrink: 0; }
+
+    /* ── FOR WHOM ── */
+    .forwhom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
+    .forwhom-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+    .forwhom-card .fw-icon { width: 48px; height: 48px; background: rgba(201,241,53,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .forwhom-card .fw-icon i { color: var(--accent); width: 24px; height: 24px; }
+    .forwhom-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .forwhom-card ul li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-secondary); }
+    .forwhom-card ul li::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+    /* ── CONVERTER ── */
+    .converter { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; max-width: 600px; }
+    .converter-row { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .converter input[type="number"] {
+      flex: 1; min-width: 100px; background: var(--bg-card-hover); border: 1px solid var(--border);
+      color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600;
+      padding: 12px 16px; border-radius: 8px; outline: none; transition: border-color 0.2s;
+    }
+    .converter input[type="number"]:focus { border-color: var(--accent); }
+    .converter select {
+      flex: 1; min-width: 100px; background: var(--bg-card-hover); border: 1px solid var(--border);
+      color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      padding: 12px 16px; border-radius: 8px; outline: none; cursor: pointer;
+    }
+    .swap-btn { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; color: var(--accent); display: flex; align-items: center; transition: background 0.2s; }
+    .swap-btn:hover { background: var(--border); }
+    .swap-btn i { width: 20px; height: 20px; }
+    .conv-result { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-top: 8px; }
+    .conv-amount { font-size: 28px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .conv-rate { font-size: 13px; color: var(--text-muted); }
+    .conv-source { margin-top: 16px; font-size: 12px; color: var(--text-muted); }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin: 24px 0; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .faq-question { width: 100%; background: none; border: none; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; text-align: left; padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq-question i { color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; transition: transform 0.3s; }
+    .faq-question.open i { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-answer-inner { padding: 0 24px 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ── CTA STRIP ── */
+    .cta-strip { display: flex; justify-content: flex-start; margin-top: 32px; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 48px 24px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-nav { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+    .footer-nav a { font-size: 14px; color: var(--text-muted); }
+    .footer-nav a:hover { color: var(--text-primary); }
+    .footer-disclaimer { font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 800px; margin-bottom: 16px; }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hamburger { display: block; }
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .metric-grid { grid-template-columns: 1fr 1fr; }
+      .steps { flex-direction: column; gap: 20px; }
+      .step-arrow { display: none; }
+      .step-inner { padding: 0; }
+      .icon-grid { grid-template-columns: 1fr 1fr; }
+      .forwhom-grid { grid-template-columns: 1fr; }
+      .adv-strip { flex-direction: column; }
+      .ea-flow { gap: 8px; }
+      .ea-arrow { display: none; }
+      .btn { width: 100%; justify-content: center; }
+      .hero-btns { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 60px 16px; }
+      .metric-grid { grid-template-columns: 1fr 1fr; }
+      .icon-grid { grid-template-columns: 1fr; }
+      .converter-row { flex-direction: column; }
+      .converter { padding: 20px 16px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="MT5 Guide Startseite">
+      <i data-lucide="chart-line"></i>
+      MT5 Guide
+    </a>
+    <nav aria-label="Hauptnavigation">
+      <a href="#was-ist-mt5">Was ist MT5</a>
+      <a href="#einrichten">Einrichten</a>
+      <a href="#mt4-vs-mt5">MT4 vs MT5</a>
+      <a href="#broker">Broker</a>
+      <a href="#kosten">Kosten</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-primary btn-sm" target="_blank" rel="noopener" aria-label="Demokonto testen">
+      Jetzt Demokonto testen
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#was-ist-mt5">Was ist MT5</a>
+    <a href="#einrichten">Einrichten</a>
+    <a href="#mt4-vs-mt5">MT4 vs MT5</a>
+    <a href="#broker">Broker</a>
+    <a href="#kosten">Kosten</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-primary" style="margin-top:8px" target="_blank" rel="noopener">Jetzt Demokonto testen</a>
+  </div>
+</header>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero" aria-label="Einführung MT5 Handelsplattform">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left -->
+      <div>
+        <div class="section-label">MetaTrader 5 – Plattform-Guide 2026</div>
+        <h1><span class="accent">MT5 Handelsplattform:</span><br>Funktionen, Einrichtung<br>und Kosten im Überblick</h1>
+        <p style="margin-top:20px;font-size:17px;line-height:1.75;">
+          MetaTrader 5 – die Multi-Asset-Handelsplattform von MetaQuotes Software.
+          38 Indikatoren, 21 Zeitrahmen, automatisierter Handel via Expert Advisors
+          und der Zugang zu Devisen, Aktien, Indizes und Rohstoffen über einen
+          lizenzierten MT5 Broker.
+        </p>
+        <div class="hero-btns">
+          <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-primary" target="_blank" rel="noopener" aria-label="Demokonto testen">Demokonto testen</a>
+          <a href="#was-ist-mt5" class="btn btn-outlined" aria-label="Mehr erfahren über MT5">Mehr erfahren</a>
+        </div>
+        <div class="hero-badges">
+          <span class="hero-badge">FCA</span>
+          <span class="hero-badge">CySEC</span>
+          <span class="hero-badge">BaFin</span>
+          <span style="font-size:12px;color:var(--text-muted);">Handelskonto bei einem regulierten MT5 Broker erforderlich</span>
+        </div>
+        <p class="hero-disclaimer">
+          Risikohinweis: Der Handel mit gehebelten Finanzinstrumenten ist mit einem
+          erhöhten Verlustrisiko verbunden. Dieser Artikel dient ausschließlich
+          Informationszwecken und stellt keine Anlageberatung dar.
+        </p>
+      </div>
+      <!-- Right: Live Rate Widget -->
+      <div>
+        <div class="rate-widget" role="region" aria-label="Live-Wechselkurse">
+          <div class="rate-widget-header">
+            <span>Live-Kurse</span>
+            <span class="rate-dot" title="Wird automatisch aktualisiert"></span>
+          </div>
+          <div class="rate-card">
+            <div class="rate-pair">EUR / USD</div>
+            <div class="rate-value" id="rate-eurusd">–</div>
+            <div class="rate-change" id="change-eurusd">–</div>
+          </div>
+          <div class="rate-card">
+            <div class="rate-pair">EUR / GBP</div>
+            <div class="rate-value" id="rate-eurgbp">–</div>
+            <div class="rate-change" id="change-eurgbp">–</div>
+          </div>
+          <div class="rate-card">
+            <div class="rate-pair">EUR / JPY</div>
+            <div class="rate-value" id="rate-eurjpy">–</div>
+            <div class="rate-change" id="change-eurjpy">–</div>
+          </div>
+          <div class="rate-updated" id="rate-updated">Wird geladen…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ WAS IST MT5 ══════════════ -->
+<section id="was-ist-mt5" aria-label="Was ist MetaTrader 5">
+  <div class="container">
+    <div class="section-label">Plattform-Überblick</div>
+    <h2>Was ist MetaTrader 5?</h2>
+    <p>MetaTrader 5 (MT5) ist eine Multi-Asset-Handelsplattform, die von MetaQuotes Software entwickelt und im Jahr 2010 veröffentlicht wurde. Die Plattform ermöglicht den Zugang zu Devisen (Forex), Aktien, Indizes und Rohstoffen über einen regulierten MT5 Broker.</p>
+    <p>Eine charakteristische Funktion von MetaTrader 5 ist die standardmäßig integrierte <strong>Markttiefe (Depth of Market, DOM)</strong>. Sie zeigt Kauf- und Verkaufsorders eines Instruments auf verschiedenen Preisniveaus an und liefert zusätzliche Daten zur Orderbuch-Liquidität. Damit unterscheidet sich MT5 von MetaTrader 4, wo die DOM-Funktion nicht standardmäßig verfügbar ist.</p>
+
+    <!-- Metric cards -->
+    <div class="metric-grid">
+      <div class="metric-card">
+        <i data-lucide="bar-chart-2"></i>
+        <div class="metric-value">21</div>
+        <div class="metric-label">Chart-Zeitrahmen</div>
+      </div>
+      <div class="metric-card">
+        <i data-lucide="layers"></i>
+        <div class="metric-value">38</div>
+        <div class="metric-label">Integrierte Indikatoren</div>
+      </div>
+      <div class="metric-card">
+        <i data-lucide="cpu"></i>
+        <div class="metric-value">MQL5</div>
+        <div class="metric-label">Programmiersprache</div>
+      </div>
+      <div class="metric-card">
+        <i data-lucide="globe"></i>
+        <div class="metric-value">2010</div>
+        <div class="metric-label">Jahr der Veröffentlichung</div>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-primary" target="_blank" rel="noopener" aria-label="MT5 Plattform kostenlos testen">Plattform kostenlos testen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ EINRICHTEN ══════════════ -->
+<section id="einrichten" aria-label="MT5 einrichten">
+  <div class="container">
+    <div class="section-label">Schritt-für-Schritt</div>
+    <h2>MT5 einrichten und zum ersten Mal anmelden</h2>
+    <p>Die Einrichtung der MetaTrader 5 Handelsplattform erfolgt in vier Schritten – von der Broker-Auswahl bis zum ersten Handelsauftrag.</p>
+
+    <!-- Steps -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-inner">
+          <div class="step-num">1</div>
+          <h3>Broker wählen</h3>
+          <p>Regulierten MT5 Broker auswählen und Konto eröffnen.</p>
+        </div>
+      </div>
+      <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+      <div class="step">
+        <div class="step-inner">
+          <div class="step-num">2</div>
+          <h3>MT5 herunterladen</h3>
+          <p>Kostenloser Download vom Broker oder MetaQuotes.</p>
+        </div>
+      </div>
+      <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+      <div class="step">
+        <div class="step-inner">
+          <div class="step-num">3</div>
+          <h3>Anmelden</h3>
+          <p>Zugangsdaten des Brokers eingeben (Server, Login, Passwort).</p>
+        </div>
+      </div>
+      <div class="step-arrow"><i data-lucide="arrow-right"></i></div>
+      <div class="step">
+        <div class="step-inner">
+          <div class="step-num">4</div>
+          <h3>Demo oder Live</h3>
+          <p>Handel auf Demo- oder Live-Konto starten.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Devices table -->
+    <h3>Verfügbare Geräte und Betriebssysteme</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Gerät / Betriebssystem</th>
+            <th>Verfügbarkeit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Windows</td><td>Native Desktop-Anwendung</td></tr>
+          <tr><td>macOS</td><td>Native Anwendung</td></tr>
+          <tr><td>Linux</td><td>Über Kompatibilitätslösung nutzbar</td></tr>
+          <tr><td>WebTerminal (Browser)</td><td>Keine Installation erforderlich</td></tr>
+          <tr><td>iOS / Android</td><td>Native mobile Apps</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cta-strip">
+      <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-outlined" target="_blank" rel="noopener" aria-label="MT5 kostenlos herunterladen">MT5 kostenlos herunterladen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ MT4 VS MT5 ══════════════ -->
+<section id="mt4-vs-mt5" aria-label="MT4 vs MT5 Vergleich">
+  <div class="container">
+    <div class="section-label">Plattform-Vergleich</div>
+    <h2>MT5 vs. MT4: Was ist der Unterschied?</h2>
+    <p>MetaTrader 4 und MetaTrader 5 sind beides Produkte von MetaQuotes Software, unterscheiden sich jedoch in Umfang und Ausrichtung. MT5 wurde als Nachfolger entwickelt und deckt ein breiteres Spektrum an Finanzinstrumenten und Analysefunktionen ab.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Merkmal</th>
+            <th>MetaTrader 4</th>
+            <th class="highlight">MetaTrader 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fokus</td>
+            <td>Primär Devisenmarkt</td>
+            <td>Multi-Asset (Devisen, Aktien, Indizes, Rohstoffe)</td>
+          </tr>
+          <tr>
+            <td>Chart-Zeitrahmen</td>
+            <td>Weniger als MT5</td>
+            <td>21 Chart-Zeitrahmen</td>
+          </tr>
+          <tr>
+            <td>Integrierte Indikatoren</td>
+            <td>Weniger als MT5</td>
+            <td>38 integrierte Indikatoren</td>
+          </tr>
+          <tr>
+            <td>Programmiersprache</td>
+            <td>MQL4</td>
+            <td>MQL5</td>
+          </tr>
+          <tr>
+            <td>Markttiefe (DOM)</td>
+            <td>Nicht standardmäßig</td>
+            <td>Standardmäßig integriert</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Advantage strip -->
+    <div class="adv-strip">
+      <div class="adv-item">
+        <i data-lucide="trending-up"></i>
+        <p><strong>Multi-Asset:</strong> Forex, Aktien, Rohstoffe und Indizes über eine Plattform</p>
+      </div>
+      <div class="adv-item">
+        <i data-lucide="bar-chart-2"></i>
+        <p><strong>38 Indikatoren</strong> gegenüber weniger in MetaTrader 4</p>
+      </div>
+      <div class="adv-item">
+        <i data-lucide="zap"></i>
+        <p><strong>DOM standardmäßig</strong> integriert – in MT4 nicht verfügbar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ BROKER ══════════════ -->
+<section id="broker" aria-label="MT5 Broker-Auswahl">
+  <div class="container">
+    <div class="section-label">Broker-Auswahl</div>
+    <h2>Welche Broker bieten Zugang zu MT5 an?</h2>
+    <p>Für den Handel über die MetaTrader 5 Handelsplattform ist ein Handelskonto bei einem Broker erforderlich, der MT5 unterstützt. Die Auswahl sollte anhand sachlicher Kriterien erfolgen.</p>
+
+    <div class="icon-grid">
+      <div class="icon-card">
+        <i data-lucide="shield-check"></i>
+        <h3>Lizenzierung</h3>
+        <p>Welche Aufsichtsbehörde beaufsichtigt den Broker? (FCA, CySEC, BaFin)</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="percent"></i>
+        <h3>Spreads &amp; Kommissionen</h3>
+        <p>Brokerabhängig und nicht verallgemeinbar – direkt beim Broker anfragen.</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="layers"></i>
+        <h3>Kontotypen</h3>
+        <p>Verfügbarkeit von Demokonten und verschiedenen Live-Kontotypen.</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="credit-card"></i>
+        <h3>Ein- &amp; Auszahlung</h3>
+        <p>Verfügbare Zahlungsmethoden und Bearbeitungszeiten.</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="list"></i>
+        <h3>Instrumentenangebot</h3>
+        <p>Umfang der über MT5 handelbaren Finanzinstrumente.</p>
+      </div>
+      <div class="icon-card" style="background:transparent;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;">
+        <p style="text-align:center;font-size:13px;color:var(--text-muted);">Regulierungsstatus und Konditionen stets eigenständig prüfen.</p>
+      </div>
+    </div>
+
+    <div class="cta-strip">
+      <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-primary" target="_blank" rel="noopener" aria-label="Regulierten MT5 Broker finden">Regulierten MT5 Broker finden</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ KOSTEN ══════════════ -->
+<section id="kosten" aria-label="Kosten und Gebühren MT5">
+  <div class="container">
+    <div class="section-label">Kostenübersicht</div>
+    <h2>Kosten und Gebühren bei der Nutzung von MT5</h2>
+    <p>Der Download und die Nutzung der MetaTrader 5 Handelsplattform selbst sind kostenlos. Handelskosten entstehen ausschließlich über das Broker-Konto.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kostenart</th>
+            <th>Zuständigkeit</th>
+            <th>Hinweis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Plattform-Download/-Nutzung</td><td>MetaQuotes Software</td><td>Kostenlos</td></tr>
+          <tr><td>Spreads</td><td>MT5 Broker</td><td>Brokerabhängig, variiert je nach Instrument</td></tr>
+          <tr><td>Kommissionen</td><td>MT5 Broker</td><td>Brokerabhängig</td></tr>
+          <tr><td>Swap-Gebühren</td><td>MT5 Broker</td><td>Bei über Nacht gehaltenen Positionen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="risk-card risk-card-orange">
+      <i data-lucide="alert-triangle"></i>
+      <p>Risikohinweis: Beim Handel mit gehebelten Produkten besteht das Risiko, dass Verluste die ursprüngliche Einzahlung übersteigen können.</p>
+    </div>
+
+    <div class="cta-strip">
+      <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-outlined" target="_blank" rel="noopener" aria-label="Konditionen vergleichen">Konditionen vergleichen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ RISIKEN ══════════════ -->
+<section id="risiken" aria-label="Risiken beim Handel über MT5">
+  <div class="container">
+    <div class="section-label">Risikohinweise</div>
+    <h2>Risiken beim Handel über MT5</h2>
+
+    <div class="risk-card">
+      <i data-lucide="info"></i>
+      <p>Die MetaTrader 5 Handelsplattform ist ein technisches Werkzeug. Die folgenden Risiken bestehen unabhängig von der verwendeten Plattform.</p>
+    </div>
+
+    <div class="icon-grid" style="margin-top:24px;">
+      <div class="icon-card">
+        <i data-lucide="trending-up"></i>
+        <h3>Marktrisiko</h3>
+        <p>Kurse können sich zugunsten oder zuungunsten des Händlers entwickeln. Vergangene Entwicklungen sind kein Indikator für künftige Ergebnisse.</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="alert-triangle"></i>
+        <h3>Hebelrisiko</h3>
+        <p>Der Hebel verstärkt sowohl Gewinne als auch Verluste. Verluste können die ursprüngliche Einzahlung übersteigen.</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="activity"></i>
+        <h3>Liquiditätsrisiko</h3>
+        <p>In Phasen geringer Liquidität können Ausführungspreise von angezeigten Kursen abweichen (Slippage).</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="wifi-off"></i>
+        <h3>Technisches Risiko</h3>
+        <p>Verbindungsunterbrechungen oder Systemausfälle können die Ausführung von Orders beeinflussen.</p>
+      </div>
+      <div class="icon-card">
+        <i data-lucide="shield-check"></i>
+        <h3>Gegenparteirisiko</h3>
+        <p>Das Risiko hängt von Solidität und Regulierung des gewählten Brokers ab.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ EXPERT ADVISORS ══════════════ -->
+<section id="expert-advisors" aria-label="Expert Advisors und automatisierter Handel">
+  <div class="container">
+    <div class="section-label">Automatisierter Handel</div>
+    <h2>Automatisierter Handel mit Expert Advisors</h2>
+    <p>MetaTrader 5 unterstützt den automatisierten Handel über sogenannte <strong>Expert Advisors (EAs)</strong> – Programme auf Basis der Programmiersprache MQL5, die Handelsentscheidungen automatisch ausführen.</p>
+
+    <!-- EA Flow -->
+    <div class="ea-flow">
+      <div class="ea-step">
+        <i data-lucide="code-2"></i>
+        <p>MQL5 Code</p>
+      </div>
+      <div class="ea-arrow"><i data-lucide="arrow-right" style="width:18px;height:18px;color:var(--text-muted)"></i></div>
+      <div class="ea-step">
+        <i data-lucide="flask-conical"></i>
+        <p>Strategy Tester</p>
+      </div>
+      <div class="ea-arrow"><i data-lucide="arrow-right" style="width:18px;height:18px;color:var(--text-muted)"></i></div>
+      <div class="ea-step">
+        <i data-lucide="history"></i>
+        <p>Backtesting</p>
+      </div>
+      <div class="ea-arrow"><i data-lucide="arrow-right" style="width:18px;height:18px;color:var(--text-muted)"></i></div>
+      <div class="ea-step">
+        <i data-lucide="rocket"></i>
+        <p>Live-Einsatz</p>
+      </div>
+    </div>
+
+    <div class="risk-card">
+      <i data-lucide="alert-triangle"></i>
+      <p>Backtests mit historischen Daten sind keine Garantie für zukünftige Handelsergebnisse. Für die Entwicklung eigener Expert Advisors sind Programmierkenntnisse in MQL5 hilfreich.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ KONVERTER ══════════════ -->
+<section id="konverter" aria-label="Währungsrechner Echtzeitkurse">
+  <div class="container">
+    <div class="section-label">Live-Tool</div>
+    <h2>Währungsrechner – Echtzeitkurse</h2>
+    <p>Aktuelle Wechselkurse in Echtzeit. Kursdaten über die Frankfurter Open Data API.</p>
+
+    <div class="converter" role="region" aria-label="Währungsrechner">
+      <div class="converter-row">
+        <input type="number" id="conv-amount" value="1000" min="0" step="any" aria-label="Betrag eingeben">
+        <select id="conv-from" aria-label="Ausgangswährung">
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+          <option value="GBP">GBP</option>
+          <option value="JPY">JPY</option>
+          <option value="CHF">CHF</option>
+          <option value="AUD">AUD</option>
+          <option value="CAD">CAD</option>
+        </select>
+        <button class="swap-btn" id="conv-swap" aria-label="Währungen tauschen">
+          <i data-lucide="repeat"></i>
+        </button>
+        <select id="conv-to" aria-label="Zielwährung">
+          <option value="USD" selected>USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="JPY">JPY</option>
+          <option value="CHF">CHF</option>
+          <option value="AUD">AUD</option>
+          <option value="CAD">CAD</option>
+        </select>
+      </div>
+      <div class="conv-result">
+        <div class="conv-amount" id="conv-result">–</div>
+        <div class="conv-rate" id="conv-rate">Kurs wird geladen…</div>
+      </div>
+      <p class="conv-source">Kurse werden stündlich aktualisiert. Quelle: Frankfurter Open Data API.</p>
+    </div>
+
+    <div class="cta-strip" style="margin-top:24px;">
+      <a href="https://libertex.com/platforms/metatrader5#downloadmt5" class="btn btn-primary" target="_blank" rel="noopener" aria-label="Mit einem MT5 Broker handeln">Mit einem MT5 Broker handeln</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FÜR WEN ══════════════ -->
+<section aria-label="Für wen eignet sich MT5">
+  <div class="container">
+    <div class="section-label">Zielgruppen</div>
+    <h2>Für wen eignet sich MT5?</h2>
+    <p>Die MetaTrader 5 Handelsplattform richtet sich sowohl an Einsteiger als auch an erfahrene Trader – durch ein gestuftes Funktionsangebot.</p>
+
+    <div class="forwhom-grid">
+      <div class="forwhom-card">
+        <div class="fw-icon"><i data-lucide="user"></i></div>
+        <h3>Einsteiger</h3>
+        <ul>
+          <li>Demokonto verfügbar</li>
+          <li>Keine Programmierkenntnisse nötig</li>
+          <li>Alle wichtigen Ordertypen integriert</li>
+          <li>Klare Benutzeroberfläche</li>
+        </ul>
+      </div>
+      <div class="forwhom-card">
+        <div class="fw-icon"><i data-lucide="user-check"></i></div>
+        <h3>Erfahrene Trader</h3>
+        <ul>
+          <li>38 integrierte Indikatoren</li>
+          <li>Expert Advisors via MQL5</li>
+          <li>Markttiefe (DOM) standardmäßig</li>
+          <li>21 Chart-Zeitrahmen</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<section id="faq" aria-label="Häufig gestellte Fragen">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2>Häufig gestellte Fragen (FAQ)</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Ist die Nutzung von MT5 kostenlos?
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Der Download und die Nutzung der MetaTrader 5 Handelsplattform selbst sind kostenlos. Handelskosten wie Spreads oder Kommissionen entstehen erst über das Handelskonto beim jeweiligen MT5 Broker und sind brokerabhängig.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Kann ich MT5 ohne echtes Geld testen?
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Ja, ein Demokonto ermöglicht das Testen der MetaTrader 5 Handelsplattform ohne Einsatz von echtem Kapital. Es bildet reale Marktbedingungen nach, garantiert aber keine identischen Ergebnisse auf einem Live-Konto.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Was ist die Markttiefe (DOM) in MT5?
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Die Markttiefe (Depth of Market) zeigt Kauf- und Verkaufsorders eines Instruments auf verschiedenen Preisniveaus an. Sie liefert zusätzliche Daten zur Orderbuch-Liquidität für die technische Analyse.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Benötige ich Programmierkenntnisse für Expert Advisors?
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Für die Entwicklung eigener Expert Advisors in MQL5 sind Programmierkenntnisse hilfreich. Viele MT5 Broker und Drittanbieter stellen jedoch auch fertige Expert Advisors zur Verfügung, deren Backtests keine Garantie für künftige Ergebnisse darstellen.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer aria-label="Footer">
+  <div class="footer-inner">
+    <div class="footer-nav">
+      <a href="#was-ist-mt5">Was ist MT5</a>
+      <a href="#einrichten">Einrichten</a>
+      <a href="#broker">Broker</a>
+      <a href="#kosten">Kosten</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://libertex.com/platforms/metatrader5#downloadmt5" target="_blank" rel="noopener">MT5 Broker finden</a>
+    </div>
+    <p class="footer-disclaimer">
+      Dieser Artikel dient ausschließlich Informationszwecken und stellt keine
+      Anlageberatung, Empfehlung oder Aufforderung zum Handel dar. Der Handel
+      mit gehebelten Finanzinstrumenten ist mit einem erheblichen Risiko verbunden
+      und nicht für jeden Anleger geeignet.
+    </p>
+    <div class="footer-copy">© 2026 MT5 Handelsplattform Guide</div>
+  </div>
+</footer>
+
+<script>
+  // ── Lucide icons init ──
+  lucide.createIcons();
+
+  // ── Hamburger menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+  });
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => mobileNav.classList.remove('open'));
+  });
+
+  // ── Live rate widget ──
+  let prevRates = {};
+  async function fetchRates() {
+    try {
+      const res = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD,GBP,JPY');
+      const data = await res.json();
+      const pairs = [
+        { key: 'USD', id: 'eurusd', decimals: 4 },
+        { key: 'GBP', id: 'eurgbp', decimals: 4 },
+        { key: 'JPY', id: 'eurjpy', decimals: 2 },
+      ];
+      pairs.forEach(p => {
+        const val = data.rates[p.key];
+        const prev = prevRates[p.key];
+        const valEl = document.getElementById('rate-' + p.id);
+        const chgEl = document.getElementById('change-' + p.id);
+        valEl.textContent = val.toFixed(p.decimals);
+        if (prev !== undefined) {
+          const diff = val - prev;
+          const pct = ((diff / prev) * 100).toFixed(3);
+          chgEl.textContent = (diff >= 0 ? '+' : '') + pct + '%';
+          chgEl.className = 'rate-change ' + (diff >= 0 ? 'positive' : 'negative');
+        } else {
+          chgEl.textContent = '–';
+          chgEl.className = 'rate-change';
+        }
+        prevRates[p.key] = val;
+      });
+      const now = new Date();
+      document.getElementById('rate-updated').textContent =
+        'Aktualisiert: ' + now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr';
+    } catch (e) {
+      document.getElementById('rate-updated').textContent = 'Verbindungsfehler';
+    }
+  }
+  fetchRates();
+  setInterval(fetchRates, 30000);
+
+  // ── Currency converter ──
+  const convAmount = document.getElementById('conv-amount');
+  const convFrom   = document.getElementById('conv-from');
+  const convTo     = document.getElementById('conv-to');
+  const convResult = document.getElementById('conv-result');
+  const convRate   = document.getElementById('conv-rate');
+  let convTimer;
+
+  async function doConvert() {
+    const amount = parseFloat(convAmount.value) || 0;
+    const from   = convFrom.value;
+    const to     = convTo.value;
+    if (from === to) {
+      convResult.textContent = amount.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + to;
+      convRate.textContent   = 'Kurs: 1 ' + from + ' = 1,0000 ' + to;
+      return;
+    }
+    try {
+      const res  = await fetch('https://api.frankfurter.app/latest?from=' + from + '&to=' + to);
+      const data = await res.json();
+      const rate = data.rates[to];
+      const converted = amount * rate;
+      convResult.textContent = converted.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 4 }) + ' ' + to;
+      convRate.textContent   = 'Kurs: 1 ' + from + ' = ' + rate.toFixed(4) + ' ' + to + ' (Stand: ' + data.date + ')';
+    } catch (e) {
+      convResult.textContent = 'Fehler';
+      convRate.textContent   = 'API nicht erreichbar';
+    }
+  }
+
+  function debounceConvert() {
+    clearTimeout(convTimer);
+    convTimer = setTimeout(doConvert, 300);
+  }
+
+  convAmount.addEventListener('input',  debounceConvert);
+  convFrom.addEventListener('change',   doConvert);
+  convTo.addEventListener('change',     doConvert);
+
+  document.getElementById('conv-swap').addEventListener('click', () => {
+    const tmp = convFrom.value;
+    convFrom.value = convTo.value;
+    convTo.value   = tmp;
+    doConvert();
+  });
+
+  doConvert();
+
+  // ── FAQ accordion ──
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen   = btn.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-question').forEach(b => {
+        b.classList.remove('open');
+        b.setAttribute('aria-expanded', 'false');
+        b.nextElementSibling.style.maxHeight = null;
+      });
+      // open clicked if was closed
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        const answer = btn.nextElementSibling;
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

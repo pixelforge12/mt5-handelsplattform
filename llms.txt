@@ -1,0 +1,16 @@
+# MT5 Handelsplattform Guide
+
+> Unabhängiger, deutschsprachiger Ratgeber zur MetaTrader 5 Handelsplattform (2026).
+
+Dieses Projekt liefert sachliche, compliance-konforme Informationen zur MT5 Plattform:
+Funktionen, Einrichtung, Vergleich mit MT4, Broker-Auswahl, Kosten und Risiken.
+
+## Seiten
+
+- [MT5 Handelsplattform Hauptseite](/mt5-handelsplattform): Vollständiger Guide zu MetaTrader 5
+- [Markdown-Version](/mt5-handelsplattform.md): Saubere strukturierte Textversion für LLMs
+
+## Verwendungszweck
+
+Informationsseite. Kein Anlageberatungs-Ton. Alle Risikohinweise sind integriert.
+Inhalte basieren auf offiziellen MetaQuotes-Dokumentationen (Stand: August 2026).
