@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-Sitemap: https://[DOMAIN]/sitemap.xml
+Sitemap: https://mt5-handelsplattform.de/sitemap.xml
